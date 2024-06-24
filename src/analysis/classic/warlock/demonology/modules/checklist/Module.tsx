@@ -8,8 +8,8 @@ import CurseUptime from '../features/CurseUptime';
 import PreparationRuleAnalyzer from 'parser/classic/modules/features/Checklist/PreparationRuleAnalyzer';
 // Spells
 import Corruption from '../spells/Corruption';
-import CurseOfAgony from '../spells/CurseOfAgony';
-import CurseOfDoom from '../spells/CurseOfDoom';
+import BaneOfAgony from '../spells/BaneOfAgony';
+import BaneOfDoom from '../spells/BaneOfDoom';
 import CurseOfTheElements from '../spells/CurseOfTheElements';
 import Immolate from '../spells/Immolate';
 import MoltenCore from '../spells/MoltenCore';
@@ -29,8 +29,8 @@ class Checklist extends BaseChecklist {
     curseUptime: CurseUptime,
     // Spells
     corruption: Corruption,
-    curseOfAgony: CurseOfAgony,
-    curseOfDoom: CurseOfDoom,
+    BaneOfAgony: BaneOfAgony,
+    BaneOfDoom: BaneOfDoom,
     curseOfTheElements: CurseOfTheElements,
     immolate: Immolate,
     moltenCore: MoltenCore,
@@ -41,8 +41,8 @@ class Checklist extends BaseChecklist {
   protected alwaysBeCasting!: AlwaysBeCasting;
   protected curseUptime!: CurseUptime;
   protected corruption!: Corruption;
-  protected curseOfAgony!: CurseOfAgony;
-  protected curseOfDoom!: CurseOfDoom;
+  protected BaneOfAgony!: BaneOfAgony;
+  protected BaneOfDoom!: BaneOfDoom;
   protected curseOfTheElements!: CurseOfTheElements;
   protected immolate!: Immolate;
   protected moltenCore!: MoltenCore;
@@ -57,8 +57,8 @@ class Checklist extends BaseChecklist {
         thresholds={{
           ...this.preparationRuleAnalyzer.thresholds,
           corruption: this.corruption.suggestionThresholds,
-          curseOfAgony: this.curseOfAgony.suggestionThresholds,
-          curseOfDoom: this.curseOfDoom.suggestionThresholds,
+          BaneOfAgony: this.BaneOfAgony.suggestionThresholds,
+          BaneOfDoom: this.BaneOfDoom.suggestionThresholds,
           curseOfTheElements: this.curseOfTheElements.suggestionThresholds,
           curseUptime: this.curseUptime.suggestionThresholds,
           immolate: this.immolate.suggestionThresholds,

@@ -7,8 +7,8 @@ import Enemies from 'parser/shared/modules/Enemies';
 import { SpellLink } from 'interface';
 import SPELLS from 'common/SPELLS/classic';
 import { SPELL_COLORS } from '../../constants';
-import CurseOfAgony from '../spells/CurseOfAgony';
-import CurseOfDoom from '../spells/CurseOfDoom';
+import BaneOfAgony from '../spells/BaneOfAgony';
+import BaneOfDoom from '../spells/BaneOfDoom';
 import CurseOfTheElements from '../spells/CurseOfTheElements';
 
 import Statistic from 'parser/ui/Statistic';
@@ -20,19 +20,19 @@ import { QualitativePerformance } from 'parser/ui/QualitativePerformance';
 class CurseUptime extends Analyzer {
   static dependencies = {
     enemies: Enemies,
-    curseOfAgony: CurseOfAgony,
-    curseOfDoom: CurseOfDoom,
+    BaneOfAgony: BaneOfAgony,
+    BaneOfDoom: BaneOfDoom,
     curseOfTheElements: CurseOfTheElements,
   };
   protected enemies!: Enemies;
-  protected curseOfAgony!: CurseOfAgony;
-  protected curseOfDoom!: CurseOfDoom;
+  protected BaneOfAgony!: BaneOfAgony;
+  protected BaneOfDoom!: BaneOfDoom;
   protected curseOfTheElements!: CurseOfTheElements;
 
   get uptime() {
     return (
-      (this.enemies.getBuffUptime(SPELLS.CURSE_OF_AGONY.id) +
-        this.enemies.getBuffUptime(SPELLS.CURSE_OF_DOOM.id) +
+      (this.enemies.getBuffUptime(SPELLS.BANE_OF_AGONY.id) +
+        this.enemies.getBuffUptime(SPELLS.BANE_OF_DOOM.id) +
         this.enemies.getBuffUptime(SPELLS.CURSE_OF_THE_ELEMENTS.id)) /
       this.owner.fightDuration
     );
@@ -87,8 +87,8 @@ class CurseUptime extends Analyzer {
   get curseChart() {
     const items = [];
     const coeUptime = this.curseOfTheElements.uptime;
-    const coaUptime = this.curseOfAgony.uptime;
-    const codUptime = this.curseOfDoom.uptime;
+    const coaUptime = this.BaneOfAgony.uptime;
+    const codUptime = this.BaneOfDoom.uptime;
     const downtime = 1 - this.uptime;
 
     if (coeUptime > 0) {
@@ -102,18 +102,18 @@ class CurseUptime extends Analyzer {
     }
     if (coaUptime > 0) {
       items.push({
-        color: SPELL_COLORS.CURSE_OF_AGONY,
-        label: 'Curse of Agony',
-        spellId: SPELLS.CURSE_OF_AGONY.id,
+        color: SPELL_COLORS.BANE_OF_AGONY,
+        label: 'Bane Of Agony',
+        spellId: SPELLS.BANE_OF_AGONY.id,
         value: coaUptime,
         valueTooltip: formatPercentage(coaUptime),
       });
     }
     if (codUptime > 0) {
       items.push({
-        color: SPELL_COLORS.CURSE_OF_DOOM,
-        label: 'Curse of Doom',
-        spellId: SPELLS.CURSE_OF_DOOM.id,
+        color: SPELL_COLORS.BANE_OF_DOOM,
+        label: 'Bane Of Doom',
+        spellId: SPELLS.BANE_OF_DOOM.id,
         value: codUptime,
         valueTooltip: formatPercentage(codUptime),
       });
@@ -168,8 +168,8 @@ class CurseUptime extends Analyzer {
           (applying <SpellLink spell={SPELLS.EBON_PLAGUE} />) or Moonkin (applying{' '}
           <SpellLink spell={SPELLS.EARTH_AND_MOON} />) in the raid, use{' '}
           <SpellLink spell={SPELLS.CURSE_OF_THE_ELEMENTS} />. After the priority curse
-          consideration, use <SpellLink spell={SPELLS.CURSE_OF_DOOM} /> for a target alive more than
-          a minute or <SpellLink spell={SPELLS.CURSE_OF_AGONY} /> for a target alive less than a
+          consideration, use <SpellLink spell={SPELLS.BANE_OF_DOOM} /> for a target alive more than
+          a minute or <SpellLink spell={SPELLS.BANE_OF_AGONY} /> for a target alive less than a
           minute.
         </p>
         <SideBySidePanels>

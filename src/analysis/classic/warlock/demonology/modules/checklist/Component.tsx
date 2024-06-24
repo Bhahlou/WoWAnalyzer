@@ -27,10 +27,8 @@ const ClassicDemonologyChecklist = ({ combatant, castEfficiency, thresholds }: C
   const curseOfTheElements = (
     <Trans id="warlock.wotlk.shared.curses.curseOfElements">Curse of Elements</Trans>
   );
-  const curseOfDoom = <Trans id="warlock.wotlk.shared.curses.curseOfDoom">Curse of Doom</Trans>;
-  const curseOfAgony = (
-    <Trans id="warlock.wotlk.shared.curses.curseOfAgony">Curse of Elements</Trans>
-  );
+  const BaneOfDoom = <Trans id="warlock.wotlk.shared.curses.BaneOfDoom">Bane Of Doom</Trans>;
+  const BaneOfAgony = <Trans id="warlock.wotlk.shared.curses.BaneOfAgony">Curse of Elements</Trans>;
 
   return (
     <Checklist>
@@ -49,9 +47,9 @@ const ClassicDemonologyChecklist = ({ combatant, castEfficiency, thresholds }: C
               raid, use{' '}
               <SpellLink spell={SPELLS.CURSE_OF_THE_ELEMENTS}>{curseOfTheElements}</SpellLink>.
               After the priority curse consideration, use{' '}
-              <SpellLink spell={SPELLS.CURSE_OF_DOOM}>{curseOfDoom}</SpellLink> for a target alive
+              <SpellLink spell={SPELLS.BANE_OF_DOOM}>{BaneOfDoom}</SpellLink> for a target alive
               more than a minute or{' '}
-              <SpellLink spell={SPELLS.CURSE_OF_AGONY}>{curseOfAgony}</SpellLink> for a target alive
+              <SpellLink spell={SPELLS.BANE_OF_AGONY}>{BaneOfAgony}</SpellLink> for a target alive
               less than a minute.
             </Trans>
           </Fragment>
@@ -63,8 +61,8 @@ const ClassicDemonologyChecklist = ({ combatant, castEfficiency, thresholds }: C
           spell={SPELLS.CURSE_OF_THE_ELEMENTS}
           thresholds={thresholds.curseOfTheElements}
         />
-        <DotUptime spell={SPELLS.CURSE_OF_DOOM} thresholds={thresholds.curseOfDoom} />
-        <DotUptime spell={SPELLS.CURSE_OF_AGONY} thresholds={thresholds.curseOfAgony} />
+        <DotUptime spell={SPELLS.BANE_OF_DOOM} thresholds={thresholds.BaneOfDoom} />
+        <DotUptime spell={SPELLS.BANE_OF_AGONY} thresholds={thresholds.BaneOfAgony} />
       </Rule>
       <Rule
         name="Maintain DoTs and debuffs"

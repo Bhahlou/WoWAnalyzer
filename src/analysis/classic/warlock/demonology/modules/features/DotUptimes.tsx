@@ -7,16 +7,19 @@ import { SpellLink } from 'interface';
 import SPELLS from 'common/SPELLS/classic/warlock';
 import Corruption from '../spells/Corruption';
 import Immolate from '../spells/Immolate';
+import BaneOfDoom from '../spells/BaneOfDoom';
 import ShadowMastery from '../spells/ShadowMastery';
 
 class DotUptimes extends Analyzer {
   static dependencies = {
     corruptionUptime: Corruption,
     immolateUptime: Immolate,
+    baneOfDoom: BaneOfDoom,
     shadowMasteryUptime: ShadowMastery,
   };
   protected corruptionUptime!: Corruption;
   protected immolateUptime!: Immolate;
+  protected baneOfDoom!: BaneOfDoom;
   protected shadowMasteryUptime!: ShadowMastery;
 
   statistic() {

@@ -1,5 +1,5 @@
 /**
- * All WotLK Warlock spells (including talent spells) go here.
+ * All Cataclysm Warlock spells (including talent spells) go here.
  * You need to do this manually by opening a WCL report and clicking the icons of spells to open the relevant Wowhead page. Here, you can get the icon name by clicking the icon, copy the name of the spell, and the ID is in the URL.
  * You can access these entries like other entries in the spells files by importing `common/SPELLS/classic` and using the assigned property on the SPELLS object. Please try to avoid abbreviating properties.
  */
@@ -11,59 +11,50 @@ const spells = {
   // SHARED
   // --------
 
+  BANE_OF_AGONY: {
+    id: 980,
+    name: 'Bane Of Agony',
+    icon: 'spell_shadow_curseofsargeras',
+  },
+  BANE_OF_DOOM: {
+    id: 603,
+    name: 'Bane of Doom',
+    icon: 'spell_shadow_auraofdarkness',
+  },
   BANISH: {
-    id: 18647,
+    id: 710,
     name: 'Banish',
     icon: 'spell_shadow_cripple',
-    lowRanks: [710],
   },
   CORRUPTION: {
-    id: 47813,
+    id: 172,
     name: 'Corruption',
     icon: 'spell_shadow_abominationexplosion',
-    lowRanks: [47812, 27216, 11672, 11671, 7648, 6223, 6222, 172],
-  },
-  CURSE_OF_AGONY: {
-    id: 47864,
-    name: 'Curse of Agony',
-    icon: 'spell_shadow_curseofsargeras',
-    lowRanks: [47863, 27218, 11713, 11712, 11711, 6217, 1014, 980],
-  },
-  CURSE_OF_DOOM: {
-    id: 47867,
-    name: 'Curse of Doom',
-    icon: 'spell_shadow_auraofdarkness',
-    lowRanks: [30910, 603],
   },
   CURSE_OF_THE_ELEMENTS: {
-    id: 47865,
+    id: 1490,
     name: 'Curse of the Elements',
     icon: 'spell_shadow_chilltouch',
-    lowRanks: [27228, 11722, 11721, 1490],
   },
   CURSE_OF_TONGUES: {
-    id: 11719,
+    id: 1714,
     name: 'Curse of Tongues',
     icon: 'spell_shadow_curseoftounges',
-    lowRanks: [1714],
   },
   CURSE_OF_WEAKNESS: {
-    id: 50511,
+    id: 702,
     name: 'Curse of Weakness',
     icon: 'spell_shadow_curseofmannoroth',
-    lowRanks: [30909, 27224, 11708, 11707, 7646, 6205, 1108, 702],
   },
   DEATH_COIL: {
-    id: 47860,
+    id: 6789,
     name: 'Death Coil',
     icon: 'spell_shadow_deathcoil',
-    lowRanks: [47859, 27223, 17926, 17925, 6789],
   },
   DEMON_ARMOR: {
-    id: 47889,
+    id: 687,
     name: 'Demon Armor',
     icon: 'spell_shadow_ragingscream',
-    lowRanks: [47793, 27260, 11735, 11734, 11733, 1086, 706],
   },
   DEMONIC_CIRCLE_SUMMON: {
     id: 48018,
@@ -76,10 +67,9 @@ const spells = {
     icon: 'spell_shadow_demoniccircleteleport',
   },
   DEMON_SKIN: {
-    id: 696,
+    id: 687,
     name: 'Demon Skin',
     icon: 'spell_shadow_ragingscream',
-    lowRanks: [687],
   },
   DETECT_INVISIBILITY: {
     id: 132,
@@ -87,45 +77,29 @@ const spells = {
     icon: 'spell_shadow_detectlesserinvisibility',
   },
   DRAIN_LIFE: {
-    id: 47857,
+    id: 689,
     name: 'Drain Life',
     icon: 'spell_shadow_lifedrain02',
-    lowRanks: [27220, 27219, 11700, 11699, 7651, 709, 699, 689],
-  },
-  DRAIN_MANA: {
-    id: 5138,
-    name: 'Drain Mana',
-    icon: 'spell_shadow_siphonmana',
   },
   DRAIN_SOUL: {
-    id: 47855,
+    id: 1120,
     name: 'Drain Soul',
     icon: 'spell_shadow_haunting',
-    lowRanks: [27217, 11675, 8289, 8288, 1120],
   },
   EYE_OF_KILROGG: {
     id: 126,
     name: 'Eye of Kilrogg',
     icon: 'spell_shadow_evileye',
   },
-  FIRESTONE_CREATE: {
-    id: 60220,
-    name: 'Create Firestone',
-    icon: 'inv_misc_gem_bloodstone_02',
-    lowRanks: [60219, 27250, 17953, 17952, 17951, 6366],
-    soulShardsCost: 1,
-  },
   FEAR: {
-    id: 6215,
+    id: 5782,
     name: 'Fear',
     icon: 'spell_shadow_possession',
-    lowRanks: [6213, 5782],
   },
   FEL_ARMOR: {
-    id: 47893,
+    id: 28176,
     name: 'Fel Armor',
     icon: 'spell_shadow_felarmour',
-    lowRanks: [47892, 28189, 28176],
   },
   FIRESTONE_USE: {
     id: 41174,

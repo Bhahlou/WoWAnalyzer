@@ -19,7 +19,7 @@ import Checklist from './modules/checklist/Module';
 import DotUptimes from './modules/features/DotUptimes';
 // Spells
 import Corruption from './modules/spells/Corruption';
-import CurseOfAgony from './modules/spells/CurseOfAgony';
+import BaneOfAgony from './modules/spells/BaneOfAgony';
 import DrainSoul from './modules/spells/DrainSoul';
 import Haunt from './modules/spells/Haunt';
 import UnstableAffliction from './modules/spells/UnstableAffliction';
@@ -40,7 +40,7 @@ class CombatLogParser extends BaseCombatLogParser {
     preparationRuleAnalyzer: PreparationRuleAnalyzer,
     // Spells
     Corruption: Corruption,
-    curseOfAgony: CurseOfAgony,
+    BaneOfAgony: BaneOfAgony,
     unstableAffliction: UnstableAffliction,
     haunt: Haunt,
     drainSoul: DrainSoul,

@@ -2,19 +2,19 @@ import Analyzer from 'parser/core/Analyzer';
 import StatisticBar from 'parser/ui/StatisticBar';
 import { STATISTIC_ORDER } from 'parser/ui/StatisticsListBox';
 
-import CurseOfAgony from '../spells/CurseOfAgony';
+import BaneOfAgony from '../spells/BaneOfAgony';
 import Corruption from '../spells/Corruption';
 import Haunt from '../spells/Haunt';
 import UnstableAffliction from '../spells/UnstableAffliction';
 
 class DotUptimeStatisticBox extends Analyzer {
   static dependencies = {
-    agonyUptime: CurseOfAgony,
+    agonyUptime: BaneOfAgony,
     corruptionUptime: Corruption,
     hauntUptime: Haunt,
     unstableAfflictionUptime: UnstableAffliction,
   };
-  protected agonyUptime!: CurseOfAgony;
+  protected agonyUptime!: BaneOfAgony;
   protected corruptionUptime!: Corruption;
   protected hauntUptime!: Haunt;
   protected unstableAfflictionUptime!: UnstableAffliction;

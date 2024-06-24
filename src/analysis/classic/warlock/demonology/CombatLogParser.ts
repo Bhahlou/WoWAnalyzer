@@ -24,8 +24,8 @@ import PreparationRuleAnalyzer from 'parser/classic/modules/features/Checklist/P
 // Spells
 import lowRankSpellsSuggestion from 'parser/classic/suggestions/lowRankSpells';
 import Corruption from './modules/spells/Corruption';
-import CurseOfAgony from './modules/spells/CurseOfAgony';
-import CurseOfDoom from './modules/spells/CurseOfDoom';
+import BaneOfAgony from './modules/spells/BaneOfAgony';
+import BaneOfDoom from './modules/spells/BaneOfDoom';
 import CurseOfTheElements from './modules/spells/CurseOfTheElements';
 import Immolate from './modules/spells/Immolate';
 import MoltenCore from './modules/spells/MoltenCore';
@@ -53,8 +53,8 @@ class CombatLogParser extends BaseCombatLogParser {
     // Spells
     lowRankSpells: lowRankSpellsSuggestion(lowRankSpells, whitelist),
     Corruption: Corruption,
-    curseOfAgony: CurseOfAgony,
-    curseOfDoom: CurseOfDoom,
+    BaneOfAgony: BaneOfAgony,
+    BaneOfDoom: BaneOfDoom,
     curseOfTheElements: CurseOfTheElements,
     immolate: Immolate,
     moltenCore: MoltenCore,

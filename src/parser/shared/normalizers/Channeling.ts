@@ -107,7 +107,6 @@ class Channeling extends EventsNormalizer {
     // Warlock
     buffChannelSpec(CLASSIC_SPELLS.DRAIN_SOUL.id),
     buffChannelSpec(CLASSIC_SPELLS.DRAIN_LIFE.id),
-    buffChannelSpec(CLASSIC_SPELLS.DRAIN_MANA.id),
   ];
 
   // registered special case handlers, mapped by guid

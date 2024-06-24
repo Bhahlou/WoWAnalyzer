@@ -6,7 +6,7 @@ import PreparationRuleAnalyzer from 'parser/classic/modules/features/Checklist/P
 import AlwaysBeCasting from '../features/AlwaysBeCasting';
 // Spells
 import Corruption from '../spells/Corruption';
-import CurseOfAgony from '../spells/CurseOfAgony';
+import BaneOfAgony from '../spells/BaneOfAgony';
 import Haunt from '../spells/Haunt';
 import UnstableAffliction from '../spells/UnstableAffliction';
 
@@ -19,7 +19,7 @@ class Checklist extends BaseChecklist {
     castEfficiency: CastEfficiency,
     combatants: Combatants,
     corruption: Corruption,
-    curseOfAgony: CurseOfAgony,
+    BaneOfAgony: BaneOfAgony,
     haunt: Haunt,
     unstableAffliction: UnstableAffliction,
     preparationRuleAnalyzer: PreparationRuleAnalyzer,
@@ -28,7 +28,7 @@ class Checklist extends BaseChecklist {
   protected castEfficiency!: CastEfficiency;
   protected combatants!: Combatants;
   protected corruption!: Corruption;
-  protected curseOfAgony!: CurseOfAgony;
+  protected BaneOfAgony!: BaneOfAgony;
   protected haunt!: Haunt;
   protected unstableAffliction!: UnstableAffliction;
   protected preparationRuleAnalyzer!: PreparationRuleAnalyzer;
@@ -41,7 +41,7 @@ class Checklist extends BaseChecklist {
         thresholds={{
           ...this.preparationRuleAnalyzer.thresholds,
           corruption: this.corruption.suggestionThresholds,
-          curseOfAgony: this.curseOfAgony.suggestionThresholds,
+          BaneOfAgony: this.BaneOfAgony.suggestionThresholds,
           haunt: this.haunt.suggestionThresholds,
           unstableAffliction: this.unstableAffliction.suggestionThresholds,
           downtimeSuggestionThresholds: this.alwaysBeCasting.downtimeSuggestionThresholds,
