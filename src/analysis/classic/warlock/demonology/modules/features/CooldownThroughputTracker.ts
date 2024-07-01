@@ -10,6 +10,11 @@ class CooldownThroughputTracker extends CoreCooldownThroughputTracker {
       spell: SPELLS.METAMORPHOSIS.id,
       summary: [BUILT_IN_SUMMARY_TYPES.DAMAGE],
     },
+    {
+      spell: SPELLS.DEMON_SOUL.id,
+      summary: [BUILT_IN_SUMMARY_TYPES.DAMAGE],
+      duration: 20,
+    },
   ];
 }
 

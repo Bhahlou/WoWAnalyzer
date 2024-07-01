@@ -170,12 +170,6 @@ class Abilities extends CoreAbilities {
         category: SPELL_CATEGORY.UTILITY,
         gcd: { base: 1500 },
       },
-      {
-        spell: [SPELLS.CHALLENGING_HOWL.id],
-        category: SPELL_CATEGORY.UTILITY,
-        gcd: { base: 1500 },
-        enabled: combatant.talentPoints[1] >= 50,
-      },
       // Pet Related
       {
         spell: [SPELLS.FEL_DOMINATION.id],

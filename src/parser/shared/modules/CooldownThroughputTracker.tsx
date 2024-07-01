@@ -201,6 +201,7 @@ class CooldownThroughputTracker extends Analyzer {
     const spellId = event.ability.guid;
     const index = this.activeCooldowns.findIndex((cooldown) => cooldown.spell === spellId);
     if (index === -1) {
+      // TODO: if (de)buff is removed without being applied, then it was applied pre-pull (eg pre-pull Metamorphosis)
       return;
     }
 

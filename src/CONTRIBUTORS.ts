@@ -2406,3 +2406,9 @@ export const Saeldur: Contributor = {
   github: 'Saeldur',
   discord: 'saeldur',
 };
+
+export const Bhahlou: Contributor = {
+  nickname: 'Bhahlou',
+  github: 'Bhahlou',
+  discord: 'bhahlou',
+};

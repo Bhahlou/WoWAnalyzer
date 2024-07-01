@@ -199,11 +199,7 @@ const spells = {
   },
   SHADOWBURN: { id: 17877, name: 'Shadowburn', icon: 'spell_shadow_scourgebuild.jpg' },
   SHADOWFURY: { id: 30283, name: 'Shadowfury', icon: 'ability_warlock_shadowfurytga.jpg' },
-  SHADOW_BOLT: {
-    id: 47809,
-    name: 'Shadow Bolt',
-    icon: 'spell_shadow_shadowbolt',
-  },
+  SHADOW_BOLT: { id: 686, name: 'Shadow Bolt', icon: 'spell_shadow_shadowbolt' },
   SHADOW_MASTERY_DEBUFF: {
     id: 17800,
     name: 'Shadow Mastery',
@@ -368,6 +364,7 @@ const spells = {
     name: 'Fel Domination',
     icon: 'spell_nature_removecurse',
   },
+  HAND_OF_GULDAN: { id: 71521, name: "Hand of Gul'dan", icon: 'inv_summerfest_firespirit.jpg' },
   METAMORPHOSIS: {
     // --------------------------------
     id: 47241,
@@ -378,11 +375,6 @@ const spells = {
     id: 54785,
     name: 'Demon Charge',
     icon: 'ability_warstomp',
-  },
-  CHALLENGING_HOWL: {
-    id: 59671,
-    name: 'Challenging Howl',
-    icon: 'spell_nature_shamanrage',
   },
   IMMOLATION_AURA: {
     id: 50589,
