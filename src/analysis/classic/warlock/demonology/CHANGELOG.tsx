@@ -1,7 +1,10 @@
 import { change, date } from 'common/changelog';
 import { Bhahlou, jazminite, Melnais } from 'CONTRIBUTORS';
+import SpellLink from 'interface/SpellLink';
+import SPELLS from 'common/SPELLS/classic/warlock';
 
 export default [
+  change(date(2024, 7, 4), <>Now supports prepull <SpellLink spell={SPELLS.METAMORPHOSIS} /> and <SpellLink spell={SPELLS.DEMON_SOUL_FELGUARD_BUFF} /> in cooldown section.</>, Bhahlou),
   change(date(2024, 7, 1), 'Update to Foundation Guide', Bhahlou),
   change(date(2023, 8, 4), 'Add Decimation to timeline', Melnais),
   change(date(2023, 7, 6), 'Add Guide Procs subsection + set guide to default view.', jazminite),
