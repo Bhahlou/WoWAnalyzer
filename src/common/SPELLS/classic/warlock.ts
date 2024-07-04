@@ -302,6 +302,11 @@ const spells = {
   },
   DEMON_SOUL: { id: 77801, name: 'Demon Soul', icon: 'spell_warlock_demonsoul.jpg' },
   DEMON_SOUL_IMP_BUFF: { id: 79459, name: 'Demon Soul: Imp', icon: 'spell_warlock_demonsoul.jpg' },
+  DEMON_SOUL_FELGUARD_BUFF: {
+    id: 79462,
+    name: 'Demon Soul: Felguard',
+    icon: 'spell_warlock_demonsoul.jpg',
+  },
   // ---------
   // TALENTS
   // ---------
@@ -365,12 +370,7 @@ const spells = {
     icon: 'spell_nature_removecurse',
   },
   HAND_OF_GULDAN: { id: 71521, name: "Hand of Gul'dan", icon: 'inv_summerfest_firespirit.jpg' },
-  METAMORPHOSIS: {
-    // --------------------------------
-    id: 47241,
-    name: 'Metamorphosis',
-    icon: 'spell_shadow_demonform',
-  },
+  METAMORPHOSIS: { id: 47241, name: 'Metamorphosis', icon: 'spell_shadow_demonform' },
   DEMON_CHARGE: {
     id: 54785,
     name: 'Demon Charge',
