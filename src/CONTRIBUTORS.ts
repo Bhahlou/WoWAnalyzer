@@ -2407,12 +2407,6 @@ export const Saeldur: Contributor = {
   discord: 'saeldur',
 };
 
-export const Bhahlou: Contributor = {
-  nickname: 'Bhahlou',
-  github: 'Bhahlou',
-  discord: 'bhahlou',
-};
-
 export const Lspinheiro: Contributor = {
   nickname: 'Lspinheiro',
   github: 'lspinheiro',
@@ -2424,4 +2418,10 @@ export const Lspinheiro: Contributor = {
       link: 'https://worldofwarcraft.blizzard.com/en-us/character/us/khazgoroth/gromlash',
     },
   ],
+};
+
+export const Bhahlou: Contributor = {
+  nickname: 'Bhahlou',
+  github: 'Bhahlou',
+  discord: 'bhahlou',
 };
