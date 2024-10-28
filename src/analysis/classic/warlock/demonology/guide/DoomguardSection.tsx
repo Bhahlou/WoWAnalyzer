@@ -5,7 +5,22 @@ import CombatLogParser from '../CombatLogParser';
 import { FoundationHighlight as HL } from 'interface/guide/foundation/shared';
 
 export function DoomguardSection({ modules, events, info }: GuideProps<typeof CombatLogParser>) {
-  //const rageWindows = Object.values(modules.dragonRage.rageWindowCounters);
+  function SnapshotQuality() {
+    if (modules.doomguard.doomguardSummonData.doomguard.summonTimestamp !== 0) {
+      return (
+        <>
+          Snapshot quality:
+          {modules.doomguard.snapshotQualityEntries.map((entry) => {
+            return entry.snapshotSummary;
+          })}
+          {modules.doomguard.snapshotAdvice}
+        </>
+      );
+    } else {
+      return <></>;
+    }
+  }
+
   return (
     <Section title="Summon and buff your doomguard">
       <p>
@@ -39,11 +54,7 @@ export function DoomguardSection({ modules, events, info }: GuideProps<typeof Co
           Summoned demon:
           {modules.doomguard.doomguardSummonData.summonedDemonSummary}
           <br />
-          Snapshot quality:
-          {modules.doomguard.snapshotQualityEntries.map((entry) => {
-            return entry.snapshotSummary;
-          })}
-          {modules.doomguard.snapshotAdvice}
+          <SnapshotQuality />
         </p>
       </SubSection>
     </Section>
