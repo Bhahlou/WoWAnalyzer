@@ -46,6 +46,7 @@ export type DoomguardData = {
 export type SnapshotQualityEntry = {
   item?: Item;
   relatedBuffs: SpellInfo[];
+  issueWithItemOrEnchant: boolean;
   snapshotQuality: QualitativePerformance;
   snapshotSummary: JSX.Element;
 };
@@ -103,10 +104,13 @@ export default class Doomguard extends Analyzer {
               item: trinket,
               relatedBuffs: [],
               snapshotQuality: QualitativePerformance.Ok,
+              issueWithItemOrEnchant: true,
               snapshotSummary: (
                 <li>
-                  <ItemLink id={equippedItem.id} details={equippedItem}></ItemLink> is unknown from
-                  WowAnalyzer database. Reach out on discord to make it added.
+                  <ItemLink id={equippedItem.id} details={equippedItem} icon={false}>
+                    <Icon icon={equippedItem.icon} />
+                  </ItemLink>{' '}
+                  is unknown from WowAnalyzer database. Reach out on discord to make it added.
                 </li>
               ),
             });
@@ -116,6 +120,7 @@ export default class Doomguard extends Analyzer {
             });
             this.snapshotQualityEntries.push({
               item: equippedItem,
+              issueWithItemOrEnchant: false,
               snapshotQuality: QualitativePerformance.Fail,
               relatedBuffs: itemRelatedBuffs,
               snapshotSummary: <></>,
@@ -130,15 +135,18 @@ export default class Doomguard extends Analyzer {
             this.snapshotQualityEntries.push({
               item: equippedItem,
               snapshotQuality: QualitativePerformance.Fail,
-              relatedBuffs: synapseSpringsAvailable ? [engineering.SYNAPSE_SPRINGS_INTEL_BUFF] : [],
+              relatedBuffs: [engineering.SYNAPSE_SPRINGS_INTEL_BUFF],
+              issueWithItemOrEnchant: !synapseSpringsAvailable,
               snapshotSummary: synapseSpringsAvailable ? (
                 <></>
               ) : (
                 <li>
-                  <ItemLink id={equippedItem.id} details={equippedItem}></ItemLink> is not enchanted
-                  with <SpellLink spell={engineering.SYNAPSE_SPRINGS} />. If you are not engineer,
-                  consider to change profession. This is by far the best one, especially as a
-                  warlock due to snapshot mechanics.
+                  <ItemLink id={equippedItem.id} details={equippedItem} icon={false}>
+                    <Icon icon={equippedItem.icon} />
+                  </ItemLink>{' '}
+                  is not enchanted with <SpellLink spell={engineering.SYNAPSE_SPRINGS} />. If you
+                  are not engineer, consider to change profession. This is by far the best one,
+                  especially as a warlock due to snapshot mechanics.
                 </li>
               ),
             });
@@ -151,15 +159,18 @@ export default class Doomguard extends Analyzer {
             this.snapshotQualityEntries.push({
               item: equippedItem,
               snapshotQuality: QualitativePerformance.Fail,
-              relatedBuffs: lighweaveAvailable ? [tailoring.LIGHTWEAVE_BUFF_RANK_2] : [],
+              relatedBuffs: [tailoring.LIGHTWEAVE_BUFF_RANK_2],
+              issueWithItemOrEnchant: !lighweaveAvailable,
               snapshotSummary: lighweaveAvailable ? (
                 <></>
               ) : (
                 <li>
-                  <ItemLink id={equippedItem.id} details={equippedItem}></ItemLink> is not enchanted
-                  with <SpellLink spell={tailoring.LIGHTWEAVE_BUFF_RANK_2} />. If you are not
-                  tailor, consider to change profession. This is the 2nd best profession, especially
-                  as a warlock due to snapshot mechanics.
+                  <ItemLink id={equippedItem.id} details={equippedItem} icon={false}>
+                    <Icon icon={equippedItem.icon} />
+                  </ItemLink>{' '}
+                  is not enchanted with <SpellLink spell={tailoring.LIGHTWEAVE_BUFF_RANK_2} />. If
+                  you are not tailor, consider to change profession. This is the 2nd best
+                  profession, especially as a warlock due to snapshot mechanics.
                 </li>
               ),
             });
@@ -172,14 +183,17 @@ export default class Doomguard extends Analyzer {
             this.snapshotQualityEntries.push({
               item: equippedItem,
               snapshotQuality: QualitativePerformance.Fail,
-              relatedBuffs: powerTorrentAvailable ? [enchanting.POWER_TORRENT_BUFF] : [],
+              relatedBuffs: [enchanting.POWER_TORRENT_BUFF],
+              issueWithItemOrEnchant: !powerTorrentAvailable,
               snapshotSummary: powerTorrentAvailable ? (
                 <></>
               ) : (
                 <li>
-                  <ItemLink id={equippedItem.id} details={equippedItem}></ItemLink> is not enchanted
-                  with <SpellLink spell={enchanting.POWER_TORRENT_BUFF} />. This is by far the best
-                  weapon enchant, especially as a warlock due to snapshot mechanics.
+                  <ItemLink id={equippedItem.id} details={equippedItem} icon={false}>
+                    <Icon icon={equippedItem.icon} />
+                  </ItemLink>{' '}
+                  is not enchanted with <SpellLink spell={enchanting.POWER_TORRENT_BUFF} />. This is
+                  by far the best weapon enchant, especially as a warlock due to snapshot mechanics.
                 </li>
               ),
             });
@@ -191,6 +205,7 @@ export default class Doomguard extends Analyzer {
     // Volcanic potion
     this.snapshotQualityEntries.push({
       snapshotQuality: QualitativePerformance.Fail,
+      issueWithItemOrEnchant: false,
       relatedBuffs: [potions.VOLCANIC_POTION],
       snapshotSummary: <></>,
     });
@@ -198,6 +213,7 @@ export default class Doomguard extends Analyzer {
     // Prepull hurricane tracking
     this.snapshotQualityEntries.push({
       snapshotQuality: QualitativePerformance.Fail,
+      issueWithItemOrEnchant: false,
       relatedBuffs: [enchanting.HURRICANE_BUFF],
       snapshotSummary: <></>,
     });
@@ -220,45 +236,50 @@ export default class Doomguard extends Analyzer {
     }
 
     this.snapshotQualityEntries.forEach((entry) => {
-      entry.relatedBuffs?.forEach((relatedBuff) => {
-        if (this.selectedCombatant.hasBuff(relatedBuff.id, event.timestamp)) {
-          entry.snapshotQuality = QualitativePerformance.Good;
-          entry.snapshotSummary = (
-            <li>
-              <PerformanceMark perf={entry.snapshotQuality} /> <SpellLink spell={relatedBuff.id} />{' '}
-              {entry.item ? (
-                <>
-                  {' '}
-                  from{' '}
-                  <ItemLink id={entry.item.id} details={entry.item} icon={false}>
-                    <Icon icon={entry.item.icon} />
-                  </ItemLink>
-                </>
-              ) : (
-                <></>
-              )}
-            </li>
-          );
-        }
-      });
-      if (entry.snapshotQuality === QualitativePerformance.Fail) {
-        entry.snapshotSummary = (
-          <li>
-            <PerformanceMark perf={entry.snapshotQuality} />{' '}
-            <SpellLink spell={entry.relatedBuffs[0].id} />{' '}
-            {entry.item ? (
-              <>
-                {' '}
-                from{' '}
-                <ItemLink id={entry.item.id} details={entry.item} icon={false}>
-                  <Icon icon={entry.item.icon} />
-                </ItemLink>
-              </>
-            ) : (
-              <></>
-            )}
-          </li>
-        );
+      console.log(entry.issueWithItemOrEnchant);
+      if (!entry.issueWithItemOrEnchant) {
+        entry.relatedBuffs?.forEach((relatedBuff) => {
+          if (this.selectedCombatant.hasBuff(relatedBuff.id, event.timestamp)) {
+            entry.snapshotQuality = QualitativePerformance.Good;
+            entry.snapshotSummary = (
+              <li>
+                <PerformanceMark perf={entry.snapshotQuality} />{' '}
+                <SpellLink spell={relatedBuff.id} />{' '}
+                {entry.item ? (
+                  <>
+                    {' '}
+                    from{' '}
+                    <ItemLink id={entry.item.id} details={entry.item} icon={false}>
+                      <Icon icon={entry.item.icon} />
+                    </ItemLink>
+                  </>
+                ) : (
+                  <></>
+                )}
+              </li>
+            );
+          }
+          console.log(entry);
+          if (entry.snapshotQuality === QualitativePerformance.Fail) {
+            entry.snapshotSummary = (
+              <li>
+                <PerformanceMark perf={entry.snapshotQuality} />{' '}
+                <SpellLink spell={entry.relatedBuffs[0].id} />{' '}
+                {entry.item ? (
+                  <>
+                    {' '}
+                    from{' '}
+                    <ItemLink id={entry.item.id} details={entry.item} icon={false}>
+                      <Icon icon={entry.item.icon} />
+                    </ItemLink>
+                  </>
+                ) : (
+                  <></>
+                )}
+              </li>
+            );
+          }
+        });
       }
     });
 
