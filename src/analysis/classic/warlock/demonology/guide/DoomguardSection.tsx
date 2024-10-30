@@ -25,28 +25,34 @@ export function DoomguardSection({ modules, events, info }: GuideProps<typeof Co
     <Section title="Summon and buff your doomguard">
       <p>
         <SpellLink spell={SPELLS.SUMMON_DOOMGUARD} /> is your most powerful damage cooldown, and
-        contributes to a large portion of your DPS. <br />
-        In most of fights, you can use this cooldown only once per fight, due to its 10 mins
-        cooldown, and it lasts for 1:05 mins (45s base duration + 20s thanks to{' '}
-        <SpellLink spell={SPELLS.ANCIENT_GRIMOIRE} /> talent)
-        <br />
+        contributes to a large portion of your DPS. Due to the 10 minute cooldown, your goal on most
+        fights is to get <strong>one good cast</strong> for the full 1m 5s duration.
       </p>
       <p>
-        What makes <SpellLink spell={SPELLS.SUMMON_DOOMGUARD} /> very strong is its{' '}
-        <strong>snapshot mechanism</strong>:<br />
-        When you summon your doomguard, it snapshots spellpower, haste <strong>rating</strong> (such
-        as <SpellLink spell={SPELLS.HURRICANE_BUFF} /> and{' '}
-        <SpellLink spell={SPELLS.ESSENCE_OF_THE_RED} />) and mastery you have when it is summoned,
-        meaning that{' '}
-        <HL>doomguard get benefits of the procs you have at cast for its entire duration</HL>! It is
-        worth nothing that speed cast buffs (like <SpellLink spell={SPELLS.BLOODLUST} />,{' '}
-        <SpellLink spell={SPELLS.HEROISM} /> or <SpellLink spell={SPELLS.POWER_INFUSION} />
-        )are not snapshoted .<br />
+        <strong>Snapshotting</strong>
       </p>
       <p>
-        This means that to get full benefits of this mechanism, you want to have as many procs as
-        possible, and this is why as a general rule of thumb, it is usually best to summon your
-        doomguard few seconds after the pull, when all your trinkets and procs are available.
+        <SpellLink spell={SPELLS.SUMMON_DOOMGUARD} /> snapshots your stat ratings when it is cast,{' '}
+        <strong>including buffs!</strong>{' '}
+        <HL>
+          This allows your Doomguard to benefit from <em>short buffs</em> for its entire duration.
+        </HL>
+      </p>
+      <p>
+        <small>
+          <strong>Haste rating buffs</strong> like <SpellLink spell={SPELLS.HURRICANE_BUFF} /> and{' '}
+          <SpellLink spell={SPELLS.ESSENCE_OF_THE_RED} /> are snapshotted but{' '}
+          <strong>Cast speed buffs</strong> like <SpellLink spell={SPELLS.BLOODLUST} />,{' '}
+          <SpellLink spell={SPELLS.HEROISM} /> or <SpellLink spell={SPELLS.POWER_INFUSION} /> are
+          not.
+        </small>
+      </p>
+      <p>
+        Snapshotting is important to doing good damage as Demonology. The easiest way to get a good
+        snapshot is to{' '}
+        <HL>
+          summon your Doomguard shortly after pull, while all trinkets and enchants are active.
+        </HL>
       </p>
 
       <SubSection title="Doomguard Snapshot Report">

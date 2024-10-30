@@ -18,16 +18,8 @@ import { SpellInfo } from 'parser/core/EventFilter';
 import engineering from 'common/SPELLS/classic/engineering';
 import tailoring from 'common/SPELLS/classic/tailoring';
 import potions from 'common/SPELLS/classic/potions';
-import { formatDuration } from 'common/format';
+import { formatDuration, formatNumber } from 'common/format';
 import Icon from 'interface/Icon';
-
-const relevantGearSlotsToCheckProcs: number[] = [
-  GEAR_SLOTS.TRINKET1,
-  GEAR_SLOTS.TRINKET2,
-  GEAR_SLOTS.HANDS,
-  GEAR_SLOTS.BACK,
-  GEAR_SLOTS.MAINHAND,
-];
 
 export type DoomguardData = {
   inferno: {
@@ -38,7 +30,7 @@ export type DoomguardData = {
     deathTimestamp: number;
     summonEvent?: CastEvent;
     castEvents: CastEvent[];
-    totalDamage?: number;
+    totalDamage: number;
   };
   summonedDemonSummary: JSX.Element;
 };
@@ -51,12 +43,14 @@ export type SnapshotQualityEntry = {
   snapshotSummary: JSX.Element;
 };
 
+const doomguardGameId = 11859;
 export default class Doomguard extends Analyzer {
   doomguardSummonData: DoomguardData = {
     doomguard: {
       summonTimestamp: 0,
       deathTimestamp: 0,
       castEvents: [],
+      totalDamage: 0,
     },
     inferno: {},
     summonedDemonSummary: <></>,
@@ -89,154 +83,144 @@ export default class Doomguard extends Analyzer {
   }
 
   private buildSnapshotEntries() {
-    // Gear related buffs
-    relevantGearSlotsToCheckProcs.forEach((gearSlot) => {
-      const equippedItem: Item = this.selectedCombatant._combatantInfo.gear[gearSlot];
-      switch (gearSlot) {
-        case GEAR_SLOTS.TRINKET1:
-        case GEAR_SLOTS.TRINKET2: {
-          const itemRelatedBuffs: SpellInfo[] = [];
-          const trinket = Object.entries(TRINKETS).find(
-            ([_, val]) => val.id === equippedItem.id,
-          )?.[1];
-          if (!trinket) {
-            this.snapshotQualityEntries.push({
-              item: trinket,
-              relatedBuffs: [],
-              snapshotQuality: QualitativePerformance.Ok,
-              issueWithItemOrEnchant: true,
-              snapshotSummary: (
-                <li>
-                  <ItemLink id={equippedItem.id} details={equippedItem} icon={false}>
-                    <Icon icon={equippedItem.icon} />
-                  </ItemLink>{' '}
-                  is unknown from WowAnalyzer database. Reach out on discord to make it added.
-                </li>
-              ),
-            });
-          } else {
-            trinket.buffs.forEach((buff) => {
-              itemRelatedBuffs.push(buff);
-            });
-            this.snapshotQualityEntries.push({
-              item: equippedItem,
-              issueWithItemOrEnchant: false,
-              snapshotQuality: QualitativePerformance.Fail,
-              relatedBuffs: itemRelatedBuffs,
-              snapshotSummary: <></>,
-            });
-          }
-          break;
-        }
-        case GEAR_SLOTS.HANDS:
-          {
-            const synapseSpringsAvailable =
-              equippedItem.onUseEnchant === engineering.SYNAPSE_SPRINGS_INTEL_BUFF.enchantId;
-            this.snapshotQualityEntries.push({
-              item: equippedItem,
-              snapshotQuality: QualitativePerformance.Fail,
-              relatedBuffs: [engineering.SYNAPSE_SPRINGS_INTEL_BUFF],
-              issueWithItemOrEnchant: !synapseSpringsAvailable,
-              snapshotSummary: synapseSpringsAvailable ? (
-                <></>
-              ) : (
-                <li>
-                  <ItemLink id={equippedItem.id} details={equippedItem} icon={false}>
-                    <Icon icon={equippedItem.icon} />
-                  </ItemLink>{' '}
-                  is not enchanted with <SpellLink spell={engineering.SYNAPSE_SPRINGS} />. If you
-                  are not engineer, consider to change profession. This is by far the best one,
-                  especially as a warlock due to snapshot mechanics.
-                </li>
-              ),
-            });
-          }
-          break;
-        case GEAR_SLOTS.BACK:
-          {
-            const lighweaveAvailable =
-              equippedItem.permanentEnchant === tailoring.LIGHTWEAVE_BUFF_RANK_2.enchantId;
-            this.snapshotQualityEntries.push({
-              item: equippedItem,
-              snapshotQuality: QualitativePerformance.Fail,
-              relatedBuffs: [tailoring.LIGHTWEAVE_BUFF_RANK_2],
-              issueWithItemOrEnchant: !lighweaveAvailable,
-              snapshotSummary: lighweaveAvailable ? (
-                <></>
-              ) : (
-                <li>
-                  <ItemLink id={equippedItem.id} details={equippedItem} icon={false}>
-                    <Icon icon={equippedItem.icon} />
-                  </ItemLink>{' '}
-                  is not enchanted with <SpellLink spell={tailoring.LIGHTWEAVE_BUFF_RANK_2} />. If
-                  you are not tailor, consider to change profession. This is the 2nd best
-                  profession, especially as a warlock due to snapshot mechanics.
-                </li>
-              ),
-            });
-          }
-          break;
-        case GEAR_SLOTS.MAINHAND:
-          {
-            const powerTorrentAvailable =
-              equippedItem.permanentEnchant === enchanting.POWER_TORRENT_BUFF.effectId;
-            this.snapshotQualityEntries.push({
-              item: equippedItem,
-              snapshotQuality: QualitativePerformance.Fail,
-              relatedBuffs: [enchanting.POWER_TORRENT_BUFF],
-              issueWithItemOrEnchant: !powerTorrentAvailable,
-              snapshotSummary: powerTorrentAvailable ? (
-                <></>
-              ) : (
-                <li>
-                  <ItemLink id={equippedItem.id} details={equippedItem} icon={false}>
-                    <Icon icon={equippedItem.icon} />
-                  </ItemLink>{' '}
-                  is not enchanted with <SpellLink spell={enchanting.POWER_TORRENT_BUFF} />. This is
-                  by far the best weapon enchant, especially as a warlock due to snapshot mechanics.
-                </li>
-              ),
-            });
-          }
-          break;
-      }
-    });
+    this.snapshotQualityEntries = [
+      // Equipped gear related
+      this.synapseSpringsSnapshotEntry(),
+      this.lightweaveSnapshotEntry(),
+      this.powerTorrentSnapshotEntry(),
+      this.trinketSnapshotEntry(GEAR_SLOTS.TRINKET1),
+      this.trinketSnapshotEntry(GEAR_SLOTS.TRINKET2),
+      // Not gear related
+      this.spellSnapshotEntry(potions.VOLCANIC_POTION),
+      this.spellSnapshotEntry(enchanting.HURRICANE_BUFF), // This is expected on prepull gear, so only buff is trackable
+    ];
+  }
 
-    // Volcanic potion
-    this.snapshotQualityEntries.push({
+  private synapseSpringsSnapshotEntry(): SnapshotQualityEntry {
+    const equippedItem = this.selectedCombatant.hands;
+
+    const synapseSpringsAvailable =
+      equippedItem.onUseEnchant === engineering.SYNAPSE_SPRINGS_INTEL_BUFF.enchantId;
+
+    return {
+      item: equippedItem,
+      snapshotQuality: QualitativePerformance.Fail,
+      relatedBuffs: [engineering.SYNAPSE_SPRINGS_INTEL_BUFF],
+      issueWithItemOrEnchant: !synapseSpringsAvailable,
+      snapshotSummary: synapseSpringsAvailable ? (
+        <></>
+      ) : (
+        <li>
+          <ItemLink id={equippedItem.id} details={equippedItem} icon={false}>
+            <Icon icon={equippedItem.icon} />
+          </ItemLink>{' '}
+          is not enchanted with <SpellLink spell={engineering.SYNAPSE_SPRINGS} />. If you are not
+          engineer, consider changing professions. Engineering the best profession for warlocks due
+          to snapshotting.
+        </li>
+      ),
+    };
+  }
+  private lightweaveSnapshotEntry(): SnapshotQualityEntry {
+    const equippedItem = this.selectedCombatant.back;
+
+    const lighweaveAvailable =
+      equippedItem.permanentEnchant === tailoring.LIGHTWEAVE_BUFF_RANK_2.enchantId;
+    return {
+      item: equippedItem,
+      snapshotQuality: QualitativePerformance.Fail,
+      relatedBuffs: [tailoring.LIGHTWEAVE_BUFF_RANK_2],
+      issueWithItemOrEnchant: !lighweaveAvailable,
+      snapshotSummary: lighweaveAvailable ? (
+        <></>
+      ) : (
+        <li>
+          <ItemLink id={equippedItem.id} details={equippedItem} icon={false}>
+            <Icon icon={equippedItem.icon} />
+          </ItemLink>{' '}
+          is not enchanted with <SpellLink spell={tailoring.LIGHTWEAVE_BUFF_RANK_2} />. If you are
+          not a tailor, consider changing professions. Tailoring is the 2nd best profession for
+          warlocks due to snapshotting.
+        </li>
+      ),
+    };
+  }
+  private powerTorrentSnapshotEntry(): SnapshotQualityEntry {
+    const equippedItem = this.selectedCombatant.mainHand;
+
+    const powerTorrentAvailable =
+      equippedItem.permanentEnchant === enchanting.POWER_TORRENT_BUFF.effectId;
+    return {
+      item: equippedItem,
+      snapshotQuality: QualitativePerformance.Fail,
+      relatedBuffs: [enchanting.POWER_TORRENT_BUFF],
+      issueWithItemOrEnchant: !powerTorrentAvailable,
+      snapshotSummary: powerTorrentAvailable ? (
+        <></>
+      ) : (
+        <li>
+          <ItemLink id={equippedItem.id} details={equippedItem} icon={false}>
+            <Icon icon={equippedItem.icon} />
+          </ItemLink>{' '}
+          is not enchanted with <SpellLink spell={enchanting.POWER_TORRENT_BUFF} />.
+        </li>
+      ),
+    };
+  }
+  private trinketSnapshotEntry(gearSlot: number): SnapshotQualityEntry {
+    const equippedItem = this.selectedCombatant._getGearItemBySlotId(gearSlot);
+
+    const itemRelatedBuffs: SpellInfo[] = [];
+    const trinket = Object.entries(TRINKETS).find(([_, val]) => val.id === equippedItem.id)?.[1];
+
+    if (!trinket) {
+      return {
+        item: trinket,
+        relatedBuffs: [],
+        snapshotQuality: QualitativePerformance.Ok,
+        issueWithItemOrEnchant: true,
+        snapshotSummary: (
+          <li>
+            <ItemLink id={equippedItem.id} details={equippedItem} icon={false}>
+              <Icon icon={equippedItem.icon} />
+            </ItemLink>{' '}
+            is not in the WowAnalyzer database. Reach out on discord to have it added.
+          </li>
+        ),
+      };
+    } else {
+      trinket.buffs.forEach((buff) => {
+        itemRelatedBuffs.push(buff);
+      });
+      return {
+        item: equippedItem,
+        issueWithItemOrEnchant: false,
+        snapshotQuality: QualitativePerformance.Fail,
+        relatedBuffs: itemRelatedBuffs,
+        snapshotSummary: <></>,
+      };
+    }
+  }
+  private spellSnapshotEntry(spellInfo: SpellInfo): SnapshotQualityEntry {
+    return {
       snapshotQuality: QualitativePerformance.Fail,
       issueWithItemOrEnchant: false,
-      relatedBuffs: [potions.VOLCANIC_POTION],
+      relatedBuffs: [spellInfo],
       snapshotSummary: <></>,
-    });
-
-    // Prepull hurricane tracking
-    this.snapshotQualityEntries.push({
-      snapshotQuality: QualitativePerformance.Fail,
-      issueWithItemOrEnchant: false,
-      relatedBuffs: [enchanting.HURRICANE_BUFF],
-      snapshotSummary: <></>,
-    });
-
-    // TODO Check if  DS really interfer with DG ==> Meta clearly doesnt
-
-    // 12024 average normal hit with flask and food, no DS no meta
-    // 12024 average normal hit with flask and food, no DS but meta
-    // 14467 average normal hit with flask and food, DS no meta
+    };
   }
   private onDoomguardSummonEvent(event: CastEvent) {
     this.doomguardSummonData.doomguard.summonEvent = event;
     this.doomguardSummonData.doomguard.summonTimestamp = event.timestamp;
 
     const doomguardId = this.owner.playerPets.find(
-      (pet) => pet.guid === 11859 && pet.petOwner === this.selectedCombatant.player.id,
+      (pet) => pet.guid === doomguardGameId && pet.petOwner === this.selectedCombatant.player.id,
     )?.id;
     if (doomguardId) {
       this.doomguardId = doomguardId;
     }
 
     this.snapshotQualityEntries.forEach((entry) => {
-      console.log(entry.issueWithItemOrEnchant);
       if (!entry.issueWithItemOrEnchant) {
         entry.relatedBuffs?.forEach((relatedBuff) => {
           if (this.selectedCombatant.hasBuff(relatedBuff.id, event.timestamp)) {
@@ -259,7 +243,6 @@ export default class Doomguard extends Analyzer {
               </li>
             );
           }
-          console.log(entry);
           if (entry.snapshotQuality === QualitativePerformance.Fail) {
             entry.snapshotSummary = (
               <li>
@@ -287,25 +270,30 @@ export default class Doomguard extends Analyzer {
       (entry) => entry.snapshotQuality === QualitativePerformance.Fail,
     );
 
-    console.log('failedEntries', failedEntries);
-
     switch (failedEntries.length) {
       case 0:
         this.snapshotAdvice = <>You snapshotted every possible buff! Perfect!</>;
         break;
       case 1:
-        console.log(failedEntries[0].relatedBuffs[0]);
-        console.log(enchanting.HURRICANE_BUFF);
         if (failedEntries[0].relatedBuffs[0] === enchanting.HURRICANE_BUFF) {
           this.snapshotAdvice = (
             <>
-              You snapshotted every possible buff, unless{' '}
-              <SpellLink spell={enchanting.HURRICANE_BUFF} />. <br />
-              You can proc both <SpellLink spell={enchanting.POWER_TORRENT_BUFF} /> and{' '}
-              <SpellLink spell={enchanting.HURRICANE_BUFF} /> by casting{' '}
-              <SpellLink spell={SPELLS.SOUL_HARVEST} /> prepull, with a weapon enchanted with
-              Hurricane, then swap to your normal weapon before entering combat. It has only 15%
-              chance to happen, but it adds ~3.5% haste to your doomguard if you succeed!
+              <p>
+                You snapshotted every possible buff except{' '}
+                <SpellLink spell={enchanting.HURRICANE_BUFF} />.
+              </p>
+              <p>
+                You can proc both <SpellLink spell={enchanting.POWER_TORRENT_BUFF} /> and{' '}
+                <SpellLink spell={enchanting.HURRICANE_BUFF} /> by:
+              </p>
+              <ol>
+                <li>
+                  Casting <SpellLink spell={SPELLS.SOUL_HARVEST} /> pre-pull with a weapon enchanted
+                  with Hurricane
+                </li>
+                <li>Swapping to your normal weapon before entering combat.</li>
+              </ol>
+              <p>This has a ~15% chance to give your Doomguard an additional ~3.5% haste.</p>
             </>
           );
         } else {
@@ -348,27 +336,28 @@ export default class Doomguard extends Analyzer {
       if (doomguardDuration >= 64000) {
         this.doomguardSummonData.summonedDemonSummary = (
           <li>
-            <PerformanceMark perf={QualitativePerformance.Perfect} /> You casted{' '}
+            <PerformanceMark perf={QualitativePerformance.Perfect} /> You cast{' '}
             <SpellLink spell={SPELLS.SUMMON_DOOMGUARD} /> at{' '}
             {formatDuration(
               this.doomguardSummonData.doomguard.summonTimestamp - this.owner.fight.start_time,
             )}
             , for a full <strong>{formatDuration(doomguardDuration)}</strong> duration and{' '}
-            <strong>{this.doomguardSummonData.doomguard.totalDamage}</strong> damage <br />
+            <strong>{formatNumber(this.doomguardSummonData.doomguard.totalDamage)}</strong> damage{' '}
+            <br />
           </li>
         );
       } else {
         this.doomguardSummonData.summonedDemonSummary = (
           <li>
-            <PerformanceMark perf={QualitativePerformance.Good} /> You casted{' '}
+            <PerformanceMark perf={QualitativePerformance.Good} /> You cast{' '}
             <SpellLink spell={SPELLS.SUMMON_DOOMGUARD} /> at{' '}
             {formatDuration(
               this.doomguardSummonData.doomguard.summonTimestamp - this.owner.fight.start_time,
             )}
             , for a <strong>{formatDuration(doomguardDuration)}</strong> duration. It did a total of{' '}
-            {this.doomguardSummonData.doomguard.totalDamage} damage, but your doomguard did not live
-            for its entire duration. Make sure that cast it soon enough so fight does not end before
-            your doomguard expires. <br />
+            {formatNumber(this.doomguardSummonData.doomguard.totalDamage)} damage, but your
+            doomguard did not live for its entire duration. Make sure that cast it soon enough so
+            fight does not end before your doomguard expires. <br />
           </li>
         );
       }

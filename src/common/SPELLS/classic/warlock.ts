@@ -283,7 +283,7 @@ const spells = {
   },
   SUMMON_INFERNO: {
     id: 1122,
-    name: 'Summon Inferno',
+    name: 'Summon Infernal',
     icon: 'spell_shadow_summoninfernal.jpg',
   },
   SUMMON_SUCCUBUS: {
