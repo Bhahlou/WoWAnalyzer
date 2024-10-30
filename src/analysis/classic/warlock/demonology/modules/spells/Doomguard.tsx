@@ -343,7 +343,6 @@ export default class Doomguard extends Analyzer {
             )}
             , for a full <strong>{formatDuration(doomguardDuration)}</strong> duration and{' '}
             <strong>{formatNumber(this.doomguardSummonData.doomguard.totalDamage)}</strong> damage{' '}
-            <br />
           </li>
         );
       } else {
