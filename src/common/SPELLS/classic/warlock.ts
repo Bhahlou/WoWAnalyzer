@@ -108,7 +108,7 @@ const spells = {
   DOOM_BOLT: {
     id: 85692,
     name: 'Doom Bolt',
-    icon: 'spell_shadow_shadowbolt',
+    icon: 'spell_shadow_shadowbolt.jpg',
   },
   DRAIN_LIFE: {
     id: 689,
@@ -254,7 +254,7 @@ const spells = {
   SOUL_HARVEST: {
     id: 79268,
     name: 'Soul Harvest',
-    icon: 'ability_mage_potentspirit',
+    icon: 'ability_mage_potentspirit.jpg',
   },
   SUBJUGATE_DEMON: {
     id: 1098,
@@ -264,7 +264,7 @@ const spells = {
   SUMMON_DOOMGUARD: {
     id: 18540,
     name: 'Summon Doomguard',
-    icon: 'achievement_boss_kiljaedan',
+    icon: 'achievement_boss_kiljaedan.jpg',
   },
   SUMMON_FELHUNTER: {
     id: 691,
@@ -409,7 +409,7 @@ const spells = {
   ANCIENT_GRIMOIRE: {
     id: 85110,
     name: 'Ancient Grimoire',
-    icon: 'ability_warlock_ancientgrimoire',
+    icon: 'ability_warlock_ancientgrimoire.jpg',
   },
 
   // Destruction

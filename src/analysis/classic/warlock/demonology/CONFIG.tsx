@@ -17,7 +17,7 @@ const CONFIG: Config = {
     <>
       <p>
         Welcome to the Demononoly Warlock analyzer! We hope that you will find useful information in
-        there!
+        here!
       </p>
       <p>
         If you have questions, comments, or suggestions about this analyzer, you can reach the
@@ -25,7 +25,7 @@ const CONFIG: Config = {
         <a href="https://github.com/WoWAnalyzer/WoWAnalyzer/issues/new">GitHub</a>, on{' '}
         <a href="https://discord.gg/AxphPxU">Discord</a>, or message me (
         <a href="/contributor/Bhahlou">Bhahlou</a>) directly on Discord. We're always interested in
-        improving the analyzer, whether it's in-depth theorycraft or rewording some text to be
+        improving the analyzer, whether it's in-depth theorycrafting or rewording some text to be
         easier to understand. The whole project is open source and welcomes contributions so you can
         directly improve it too!
       </p>

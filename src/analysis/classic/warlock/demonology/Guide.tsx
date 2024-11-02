@@ -34,9 +34,9 @@ function CooldownsSection({ modules, events, info }: GuideProps<typeof CombatLog
           <strong>insanely powerful</strong>.
           <br />
           Perfect cooldown usage is a combination of in-depth fight knowledge and player skill, to
-          adaptat to certain boss mechanics or certain kill times. However, it will mostly will be
-          better to use
-          <strong>every cooldown available to you.</strong> than to postpone an use and miss one.
+          adapt to certain boss mechanics or certain kill times. However, it will mostly be better
+          to use
+          <strong>every cooldown available to you.</strong> than to postpone a cast and miss one.
         </p>
       </Explanation>
       <CooldownGraphSubsection />
@@ -47,10 +47,10 @@ function CooldownsSection({ modules, events, info }: GuideProps<typeof CombatLog
 function CooldownGraphSubsection() {
   return (
     <SubSection>
-      <strong>Cooldown Graph</strong> - this graph shows when you used your cooldowns and how long
-      you waited to use them again. Grey segments show when the spell was available, yellow segments
-      show when the spell was cooling down. Red segments highlight times when you could have fit a
-      whole extra use of the cooldown.
+      <strong>Cooldown Graph</strong> - this graph shows when you used cooldowns and how long you
+      waited to use them again. Grey segments show when the spell was available, yellow segments
+      show when the spell was cooling down, and red segments highlight times when you could have fit
+      a whole extra use of the cooldown.
       <CastEfficiencyBar
         spellId={SPELLS.METAMORPHOSIS.id}
         gapHighlightMode={GapHighlight.FullCooldown}

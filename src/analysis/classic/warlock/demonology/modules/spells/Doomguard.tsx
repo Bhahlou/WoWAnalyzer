@@ -373,7 +373,7 @@ export default class Doomguard extends Analyzer {
         <PerformanceMark perf={QualitativePerformance.Fail} /> You used{' '}
         <SpellLink spell={SPELLS.SUMMON_INFERNO} /> at{' '}
         {formatDuration(event.timestamp - this.owner.fight.start_time)} which shares its cooldown
-        with <SpellLink spell={SPELLS.SUMMON_DOOMGUARD} />. Unless you face an heavy sustained AoE
+        with <SpellLink spell={SPELLS.SUMMON_DOOMGUARD} />. Unless you face a heavy sustained AoE
         damage situation, where Inferno can cleave for a major part of its duration, or if it is
         absolutely required by your raid, a <strong>doomguard will do more damage</strong>.
       </li>
