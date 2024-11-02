@@ -356,7 +356,7 @@ export default class Doomguard extends Analyzer {
             , for a <strong>{formatDuration(doomguardDuration)}</strong> duration. It did a total of{' '}
             {formatNumber(this.doomguardSummonData.doomguard.totalDamage)} damage, but your
             doomguard did not live for its entire duration. Make sure that cast it soon enough so
-            fight does not end before your doomguard expires. <br />
+            fight does not end before your doomguard expires.
           </li>
         );
       }
